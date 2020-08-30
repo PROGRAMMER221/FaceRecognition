@@ -18,9 +18,9 @@ def HomeView(request):
 
 
 def FaceDetector(request):
-    recognizer.read('trainner.yml')
+    recognizer.read('StaticFiles/recognizer/trainner.yml')
     labels = {'person_name' : 1}
-    with open('labels.pickle', 'rb') as f:
+    with open('StaticFiles/pickle/face-labels.pickle', 'rb') as f:
         og_labels = pickle.load(f)
         labels = {v:k for k,v in og_labels.items()}
 
@@ -85,11 +85,11 @@ def FaceTrainer(request):
                     x_train.append(roi)
                     y_labels.append(id_)
 
-    with open('labels.pickle', 'wb') as f:
+    with open('StaticFiles/pickle/face-labels.pickle', 'wb') as f:
         pickle.dump(label_ids, f)
 
     recognizer.train(x_train, np.array(y_labels))
-    recognizer.save('trainner.yml')
+    recognizer.save('StaticFiles/recognizer/trainner.yml')
 
     messages.success(request, 'Model Trainning Completed Successfully')
     return redirect('/')
