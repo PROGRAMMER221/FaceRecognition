@@ -57,7 +57,7 @@ def FaceDetector(request):
     return redirect('/feedback/')
 
 def FaceTrainer(request):
-    image_dir = os.path.join(st.BASE_DIR, "images")
+    image_dir = os.path.join(st.BASE_DIR, "StaticFiles")
     
     y_labels = []
     x_train = []
