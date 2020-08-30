@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <title>Face Detector</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'font-aws/all.css' %}">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    </head>
+
+    <body>
+        
+        <nav class="navbar navbar-light bg-light d-flex justify-content-between">
+          <div class="justify-content-start">
+            <button class="btn btn-outline-dark" onclick="location.href='/'"><i class="fas fa-home"></i></button>
+            {% if request.user.is_superuser %}
+            <a href="/feedback-log/" class="text-decoration-none text-body h5 ml-3">FeedBack Log</a>
+            {% endif %}
+          </div>
+          <div>
+              {% if request.user.is_authenticated %}
+                  <button class="btn btn-outline-danger" onclick="location.href='/accounts/logout/'">SignOut</button>
+              {% else %}
+              <button class="btn btn-outline-danger" onclick="location.href='/accounts/login/'">SignIn</button>
+              <button class="btn btn-outline-danger" onclick="location.href='/accounts/signup/'">SignUp</button>
+              {% endif %}
+          </div>
+        </nav>
+
+        <div>
+            {% if messages %}
+            {% for message in messages %}
+              {% if message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% else %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endif %}          
+            {% endfor %}
+            {% endif %}
+          </div>
+
+        {% block content %}
+        <div class="container text-center mt-5">
+            <h1 class="text-success font-weight-bold text-left mb-5">Face Detector</h1>
+            {% if request.user.is_superuser %}
+            <button class="btn btn-outline-info mr-5" onclick="location.href='/face-trainer/'">TRAIN DETECTOR</button>
+            {% endif %}
+            <button class="btn btn-outline-success" onclick="location.href='/face-detector/'">START DETECTOR</button>
+        </div>
+       {% endblock %} 
+    </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'font-aws/all.js' %}"></script>
+</html>
